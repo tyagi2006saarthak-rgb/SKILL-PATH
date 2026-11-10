@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body } from "express-validator";
-import { guest, login, me, register } from "../controllers/authController.js";
+import { login, me, register } from "../controllers/authController.js";
 import * as app from "../controllers/appController.js";
 import { requireAuth } from "../middleware/auth.js";
 
@@ -13,7 +13,6 @@ router.post("/auth/register", [
   body("password").isLength({ min: 8 }).withMessage("Password must be at least 8 characters.")
 ], register);
 router.post("/auth/login", [emailRule, body("password").notEmpty().withMessage("Password is required.")], login);
-router.post("/auth/guest", guest);
 router.get("/auth/me", requireAuth, me);
 router.use(requireAuth);
 router.get("/skills", app.listSkills);
