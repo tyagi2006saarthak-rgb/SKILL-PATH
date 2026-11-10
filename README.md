@@ -4,7 +4,7 @@ A full-stack career-planning application built with React, Express, and MongoDB.
 
 ## Features
 
-- Account registration and sign-in with bcrypt password hashing and JWT-protected APIs.
+- Automatic guest workspaces with JWT-protected APIs; no sign-in or registration screen.
 - Private student profiles and CRUD skill management with five proficiency levels.
 - Twelve seeded career paths with skill requirements, importance weights, prerequisites, and learning resources.
 - Rule-based skill-gap analysis, severity labels, weighted prioritization, and prerequisite-aware roadmap generation.
@@ -51,7 +51,7 @@ From the project root:
 
    Open [http://localhost:5173](http://localhost:5173). The API listens at [http://localhost:5000](http://localhost:5000); `GET /api/health` is its health check.
 
-The first user can register from the sign-in page. No demo user or default password is created.
+The app automatically starts a guest workspace when opened. Its data is kept separately for that browser; clearing browser site data may remove access to the workspace.
 
 ## Deploy for access across devices
 
@@ -68,10 +68,10 @@ For changes to appear on every device, deploy the frontend and API and point the
    - Build command: `npm run build --workspace client`
    - Output directory: `client/dist`
    - Environment variable: `VITE_API_URL` set to the Render service URL followed by `/api` (for example, `https://your-api.onrender.com/api`)
-   The root `vercel.json` configures client-side routes such as `/login` to load correctly.
-4. After the first Vercel deployment, set `CLIENT_URL` in Render to the exact Vercel origin, redeploy the API, and open the Vercel URL. Register an account there. Local accounts and local MongoDB data are not automatically copied to Atlas.
+   The root `vercel.json` configures client-side routes to load correctly.
+4. After the first Vercel deployment, set `CLIENT_URL` in Render to the exact Vercel origin, redeploy the API, and open the Vercel URL. The app starts a guest workspace automatically. Local MongoDB data is not automatically copied to Atlas.
 
-Your friend can sign in to that deployed site using the same account. Account changes are stored in the shared Atlas database and will be available on other devices after refresh. Anyone using the same login can access and change that account's data, so only share it with someone you trust. Keep `MONGODB_URI` and `JWT_SECRET` private; never put them in the frontend or commit them to the repository.
+Each browser gets its own guest workspace, so your teacher can use the site without signing in. Guest workspace data is not shared across browsers or devices. Keep `MONGODB_URI` and `JWT_SECRET` private; never put them in the frontend or commit them to the repository.
 
 ## Useful commands
 
@@ -107,7 +107,7 @@ server/
 
 ## API overview
 
-- `POST /api/auth/register`, `POST /api/auth/login`, `GET /api/auth/me`
+- `POST /api/auth/guest` (used automatically), `GET /api/auth/me`
 - `GET|POST /api/skills`, `PUT|DELETE /api/skills/:id`
 - `GET /api/careers`, `GET /api/careers/:id`, `POST /api/analysis/:id`
 - `POST /api/roadmaps/generate`, `GET /api/roadmaps`, `GET /api/roadmaps/:id`

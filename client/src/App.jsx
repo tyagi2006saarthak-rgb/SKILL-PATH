@@ -2,7 +2,6 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DashboardLayout from "./components/DashboardLayout";
-import AuthPage from "./pages/AuthPage";
 import DashboardPage from "./pages/DashboardPage";
 import SkillsPage from "./pages/SkillsPage";
 import CareersPage from "./pages/CareersPage";
@@ -13,8 +12,6 @@ import "./styles.css";
 
 function AppRoutes() {
   return <Routes>
-    <Route path="/login" element={<AuthPage mode="login"/>}/>
-    <Route path="/register" element={<AuthPage mode="register"/>}/>
     <Route element={<ProtectedRoute/>}>
       <Route element={<DashboardLayout/>}>
         <Route index element={<DashboardPage/>}/>

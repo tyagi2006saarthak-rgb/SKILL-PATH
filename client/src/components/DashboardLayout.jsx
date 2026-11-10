@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { Activity, BookOpen, BriefcaseBusiness, ChartNoAxesCombined, ChevronLeft, ChevronRight, LayoutDashboard, LogOut, Menu, Moon, Sun, UserRound, X } from "lucide-react";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { Activity, BookOpen, BriefcaseBusiness, ChartNoAxesCombined, ChevronLeft, ChevronRight, LayoutDashboard, Menu, Moon, Sun, UserRound, X } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 const links = [
@@ -14,8 +14,7 @@ const links = [
 const titles = { "/": ["Overview", "Your progress, at a glance"], "/skills": ["My skills", "Build a clear picture of what you know"], "/careers": ["Career paths", "Find the direction that feels right"], "/roadmap": ["My roadmap", "Small steps add up to big progress"], "/progress": ["My progress", "Celebrate what you’ve learned along the way"], "/profile": ["My profile", "Your details and career goal"] };
 
 export default function DashboardLayout() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -25,10 +24,6 @@ export default function DashboardLayout() {
     const value = !dark;
     setDark(value);
     localStorage.setItem("skillpath_theme", value ? "dark" : "light");
-  };
-  const signOut = () => {
-    logout();
-    navigate("/login");
   };
   return (
     <div className={`app-shell ${dark ? "theme-dark" : ""} ${collapsed ? "sidebar-collapsed" : ""}`}>
@@ -41,7 +36,7 @@ export default function DashboardLayout() {
         </nav>
         <div className="sidebar-bottom">
           <div className="sidebar-tip"><div className="tip-icon"><Activity size={17}/></div><strong>Keep the momentum</strong><p>A little progress each day adds up to big results.</p><NavLink to="/roadmap">View my roadmap <ChevronRight size={14}/></NavLink></div>
-          <div className="user-mini"><div className="avatar">{user?.name?.slice(0,1).toUpperCase() || "S"}</div><div className="user-mini-copy"><strong>{user?.name || "Student"}</strong><span>Personal workspace</span></div><button className="icon-btn logout-btn" onClick={signOut} title="Sign out" aria-label="Sign out"><LogOut size={17}/></button></div>
+          <div className="user-mini"><div className="avatar">{user?.name?.slice(0,1).toUpperCase() || "S"}</div><div className="user-mini-copy"><strong>{user?.name || "Student"}</strong><span>Guest workspace</span></div></div>
         </div>
         <button className="collapse-btn" aria-label="Collapse sidebar" onClick={() => setCollapsed((v) => !v)}>{collapsed ? <ChevronRight size={16}/> : <ChevronLeft size={16}/>}</button>
       </aside>
